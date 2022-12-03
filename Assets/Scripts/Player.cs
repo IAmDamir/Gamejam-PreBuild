@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    //[SerializeField] private float _turnSpeed = 360;
+    [SerializeField] private float _turnSpeed = 360;
     [SerializeField] private Animator _animator;
 
     [SerializeField] private Rigidbody _rbody;
@@ -58,8 +58,8 @@ public class Player : MonoBehaviour
             var relative = _moveInput.ToIso();
             var rot = Quaternion.LookRotation(relative,Vector3.up);
 
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
-            transform.rotation = rot;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.fixedDeltaTime);
+            //transform.rotation = rot;
         }
         else
         {
