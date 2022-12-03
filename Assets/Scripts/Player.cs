@@ -6,18 +6,17 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private float _turnSpeed = 360;
+    //[SerializeField] private float _turnSpeed = 360;
     [SerializeField] private Animator _animator;
 
+    [SerializeField] private Rigidbody _rbody;
+
     private PlayerControls _controls;
-    private Rigidbody _rbody;
     private Vector3 _moveInput;
 
     private void Awake()
     {
         _controls = new PlayerControls();
-
-        _rbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
@@ -56,10 +55,11 @@ public class Player : MonoBehaviour
         if (_moveInput != Vector3.zero)
         {
             _animator.Play("Walk");
-            var relative = (transform.position + _moveInput.ToIso()) - transform.position;
+            var relative = _moveInput.ToIso();
             var rot = Quaternion.LookRotation(relative,Vector3.up);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
+            transform.rotation = rot;
         }
         else
         {
