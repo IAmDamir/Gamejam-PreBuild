@@ -13,11 +13,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
 
     private Story currentStory;
-    private bool dialogueIsPlaying;
+    public bool dialogueIsPlaying { get; private set; }
 
     private static DialogueManager instance;
-
-    private PlayerControls controls;
 
     private void Awake()
     {
@@ -26,7 +24,6 @@ public class DialogueManager : MonoBehaviour
             Debug.LogWarning("More than one DIalogue Manager instance in scene!");
         }
         instance = this;
-        controls = new PlayerControls();
     }
 
     public static DialogueManager GetInstance()
@@ -47,7 +44,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        if (controls.UI.Submit.triggered)
+        if (InputManager.getControls().UI.Submit.triggered)
         {
             ContinueStory();
         }
@@ -79,15 +76,5 @@ public class DialogueManager : MonoBehaviour
         {
             ExitDialogueMode();
         }
-    }
-
-    private void OnEnable()
-    {
-        controls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Disable();
     }
 }

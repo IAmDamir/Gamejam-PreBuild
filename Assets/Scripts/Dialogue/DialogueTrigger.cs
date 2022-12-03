@@ -12,14 +12,10 @@ public class DialogueTrigger : MonoBehaviour
     [Header("Ink JSON")]
     [SerializeField] private TextAsset inkJSON;
 
-    private PlayerControls controls;
-
     private bool playerInRange;
 
     private void Awake()
     {
-        controls = new PlayerControls();
-
         playerInRange = false;
         visualCue.SetActive(false);
     }
@@ -30,7 +26,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             visualCue.SetActive(true);
 
-            if (controls.Gameplay.Interact.triggered)
+            if (InputManager.getControls().Gameplay.Interact.triggered)
             {
                 DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
             }
@@ -55,15 +51,5 @@ public class DialogueTrigger : MonoBehaviour
         {
             playerInRange = false;
         }
-    }
-
-    private void OnEnable()
-    {
-        controls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Disable();
     }
 }
