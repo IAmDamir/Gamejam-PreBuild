@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _controls = new PlayerControls();
+        _controls = InputManager.getControls();
     }
 
     private void FixedUpdate()
@@ -37,6 +37,17 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (DialogueManager.GetInstance().dialogueIsPlaying)
+        {
+            _controls.asset.FindActionMap("Gameplay").Disable();
+            _controls.asset.FindActionMap("UI").Enable();
+        }
+        else
+        {
+            _controls.asset.FindActionMap("UI").Disable();
+            _controls.asset.FindActionMap("Gameplay").Enable();
+        }
+
         GatherInput();
         Look();
     }
