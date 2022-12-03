@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _turnSpeed = 360;
+    [SerializeField] private Animator _animator;
 
     private PlayerControls _controls;
     private Rigidbody _rbody;
@@ -43,7 +44,7 @@ public class Player : MonoBehaviour
 
     private void GatherInput()
     {
-        Vector2 temp = _controls.Movement.Movement.ReadValue<Vector2>();
+        Vector2 temp = _controls.Gameplay.Movement.ReadValue<Vector2>();
         if (temp != Vector2.zero)
             _moveInput = new Vector3(temp.x, 0, temp.y);
         else
@@ -54,10 +55,15 @@ public class Player : MonoBehaviour
     {
         if (_moveInput != Vector3.zero)
         {
+            _animator.Play("Walk");
             var relative = (transform.position + _moveInput.ToIso()) - transform.position;
             var rot = Quaternion.LookRotation(relative,Vector3.up);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
+        }
+        else
+        {
+            _animator.Play("Idle");
         }
     }
 
